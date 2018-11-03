@@ -1,6 +1,6 @@
 {
   "name": "use-value-callbag",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "👜 Convert React value (i.e. props or state) to a callbag source.",
   "main": "./dist/use-value-callbag.cjs.js",
   "module": "./dist/use-value-callbag.esm.js",
