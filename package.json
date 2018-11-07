@@ -42,7 +42,6 @@
     "rollup-plugin-babel": "^4.0.3"
   },
   "dependencies": {
-    "callbag-remember": "^1.0.4",
-    "callbag-subject": "^1.0.2"
+    "callbag-behavior-subject": "^1.2.0"
   }
 }
