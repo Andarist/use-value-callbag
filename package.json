@@ -4,11 +4,13 @@
   "description": "👜 Convert React value (i.e. props or state) to a callbag source.",
   "main": "./dist/use-value-callbag.cjs.js",
   "module": "./dist/use-value-callbag.esm.js",
+  "types": "index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "*.d.ts"
   ],
   "scripts": {
-    "test": "echo \"Warning: no test specified\" || jest --env=node",
+    "test": "jest --env=node",
     "prebuild": "rimraf dist",
     "build": "rollup -c",
     "preversion": "npm test",
@@ -25,18 +27,22 @@
   },
   "homepage": "https://github.com/Andarist/use-value-callbag#readme",
   "peerDependencies": {
-    "react": "^16.7.0-alpha.0"
+    "react": "^17.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-transform-modules-commonjs": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/preset-react": "^7.12.13",
+    "callbag": "^1.4.0",
+    "callbag-common": "^0.1.8",
     "husky": "^1.1.0",
-    "jest": "^23.6.0",
+    "jest": "^26.6.3",
     "lint-staged": "^7.3.0",
     "prettier": "^1.14.3",
-    "react": "16.7.0-alpha.0",
-    "react-dom": "16.7.0-alpha.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-test-renderer": "^17.0.1",
     "rimraf": "^2.6.2",
     "rollup": "^0.66.6",
     "rollup-plugin-babel": "^4.0.3"
