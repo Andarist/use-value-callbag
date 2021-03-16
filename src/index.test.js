@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { renderHook, act } from '@testing-library/react-hooks'
 import { pipe, subscribe } from 'callbag-common'
 
@@ -43,4 +43,31 @@ test('the hook works.', () => {
 
   unmount()
   expect(res).toBe('DONE')
+})
+
+test('no redundant emissions when used with layout effects.', () => {
+  let res = []
+
+  const { result } = renderHook(() => {
+    const [x, setX] = useState(0)
+    const val$ = useValueCallbag(x)
+    useLayoutEffect(
+      () =>
+        pipe(
+          val$,
+          subscribe({
+            next: v => res.push(v),
+            complete: () => (res = 'DONE'),
+          }),
+        ),
+      [],
+    )
+
+    return () => setX(x + 1)
+  })
+
+  expect(res).toStrictEqual([0])
+
+  act(() => result.current())
+  expect(res).toStrictEqual([0, 1])
 })
