@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/Andarist/use-value-callbag#readme",
   "peerDependencies": {
-    "react": "^17.0.1"
+    "react": "^16.8 || ^17"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
