@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { create, act } from 'react-test-renderer'
+import { renderHook, act } from '@testing-library/react-hooks'
 import { pipe, subscribe } from 'callbag-common'
 
 import useValueCallbag from './index'
@@ -7,56 +7,40 @@ import useValueCallbag from './index'
 test('the hook works.', () => {
   let res = []
 
-  function Comp() {
-    const [val, set] = useState(0)
-    const [val2, set2] = useState(0)
-    const val$ = useValueCallbag(val)
+  const { result, unmount } = renderHook(() => {
+    const [x, setX] = useState(0)
+    const [y, setY] = useState(0)
 
-    useEffect(() => {
-      pipe(
-        val$,
-        subscribe({
-          next: v => res.push(v),
-          complete: () => (res = 'DONE'),
-        }),
-      )
-    }, [])
-
-    return (
-      <>
-        <button onClick={() => set(val + 1)} />
-        <span onClick={() => set2(val2 + 1)} />
-      </>
+    const val$ = useValueCallbag(x)
+    useEffect(
+      () =>
+        pipe(
+          val$,
+          subscribe({
+            next: v => res.push(v),
+            complete: () => (res = 'DONE'),
+          }),
+        ),
+      [],
     )
-  }
 
-  let component
-
-  act(() => {
-    component = create(<Comp />)
+    return {
+      nextX: () => setX(x + 1),
+      nextY: () => setY(y + 1),
+    }
   })
+
   expect(res).toStrictEqual([0])
 
-  const button = component.root.findByType('button')
-  const span = component.root.findByType('span')
-
-  act(() => {
-    button.props.onClick()
-  })
+  act(() => result.current.nextX())
   expect(res).toStrictEqual([0, 1])
 
-  act(() => {
-    span.props.onClick()
-  })
+  act(() => result.current.nextY())
   expect(res).toStrictEqual([0, 1])
 
-  act(() => {
-    button.props.onClick()
-  })
+  act(() => result.current.nextX())
   expect(res).toStrictEqual([0, 1, 2])
 
-  act(() => {
-    component.unmount()
-  })
+  unmount()
   expect(res).toBe('DONE')
 })
