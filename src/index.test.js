@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { renderHook, act } from '@testing-library/react-hooks'
-import { pipe, subscribe } from 'callbag-common'
+import pipe from 'callbag-pipe'
+import subscribe from 'callbag-subscribe'
 
 import useValueCallbag from './index'
 
