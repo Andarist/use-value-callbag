@@ -8,7 +8,7 @@ import useValueCallbag from './index'
 test('the hook works.', () => {
   let res = []
 
-  const { result, unmount } = renderHook(() => {
+  const { result } = renderHook(() => {
     const [x, setX] = useState(0)
     const [y, setY] = useState(0)
 
@@ -17,10 +17,7 @@ test('the hook works.', () => {
       () =>
         pipe(
           val$,
-          subscribe({
-            next: v => res.push(v),
-            complete: () => (res = 'DONE'),
-          }),
+          subscribe(v => res.push(v)),
         ),
       [],
     )
@@ -41,9 +38,6 @@ test('the hook works.', () => {
 
   act(() => result.current.nextX())
   expect(res).toStrictEqual([0, 1, 2])
-
-  unmount()
-  expect(res).toBe('DONE')
 })
 
 test('no redundant emissions when used with layout effects.', () => {
@@ -56,10 +50,7 @@ test('no redundant emissions when used with layout effects.', () => {
       () =>
         pipe(
           val$,
-          subscribe({
-            next: v => res.push(v),
-            complete: () => (res = 'DONE'),
-          }),
+          subscribe(v => res.push(v)),
         ),
       [],
     )

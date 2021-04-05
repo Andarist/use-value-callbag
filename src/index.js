@@ -19,13 +19,5 @@ export default function useValueCallbag(value) {
     }
   }, [value, subject])
 
-  useEffect(
-    () => () => {
-      value$Ref.current(2)
-      value$Ref.current = undefined
-    },
-    [],
-  )
-
   return subject
 }
