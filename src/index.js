@@ -17,7 +17,7 @@ export default function useValueCallbag(value) {
       subject(1, value)
       lastVal.current = value
     }
-  }, [value, subject])
+  })
 
   return subject
 }
