@@ -1,14 +1,23 @@
 import behaviorSubject from 'callbag-behavior-subject'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 
 export default function useValueCallbag(value) {
-  const value$Ref = useRef(null)
+  const value$Ref = useRef()
+  const lastVal = useRef(value)
 
-  if (value$Ref.current === null) {
+  if (!value$Ref.current) {
     value$Ref.current = behaviorSubject(value)
-  } else {
-    value$Ref.current(1, value)
+    lastVal.current = value
   }
 
-  return value$Ref.current
+  const subject = value$Ref.current
+
+  useEffect(() => {
+    if (lastVal.current !== value) {
+      subject(1, value)
+      lastVal.current = value
+    }
+  })
+
+  return subject
 }
